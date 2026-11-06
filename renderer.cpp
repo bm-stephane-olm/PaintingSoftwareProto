@@ -7,7 +7,6 @@ Renderer::Renderer(QWidget* parent) :
 {
     image = new QImage(500,500, QImage::Format::Format_ARGB32);
     image->fill(Qt::white);
-    update();
 }
 
 void Renderer::paintEvent(QPaintEvent* event) {
@@ -18,7 +17,6 @@ void Renderer::paintEvent(QPaintEvent* event) {
 void Renderer::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         isDrawing = true;
-        drawTo(event->pos());
         startPos = event->pos();
     }
 }
@@ -31,9 +29,9 @@ void Renderer::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void Renderer::mouseMoveEvent(QMouseEvent* event) {
-    if (event->button() == Qt::LeftButton) {
+    if ((event->buttons() & Qt::LeftButton) && isDrawing) {
         drawTo(event->pos());
-        startPos = event->pos();
+        qDebug() << "move";
     }
 }
 
@@ -41,7 +39,7 @@ void Renderer::drawTo(QPoint endPos) {
     QPainter painter(image);
     painter.setPen(QPen(penColor, penWidth));
     painter.drawLine(startPos, endPos);
-    qDebug() << "Draw";
-    update();
+    update(QRect(startPos, endPos).normalized().adjusted(-1, -1, 1, 1));
+    startPos = endPos;
 }
 
