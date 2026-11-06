@@ -5,6 +5,8 @@
 #include "renderer.h"
 #include <QComboBox>
 #include <QLabel>
+#include <QPushButton>
+#include <QtoolBar>
 
 class MainWindow : public QMainWindow
 {
@@ -17,7 +19,10 @@ public:
     void loadImage();
 
 private:
-    QComboBox* brushType;
+    QComboBox* brushTypes;
+    QPushButton* brushColor;
+    QToolBar* toolBar;
+    QLabel* brushColorLabel;
     QLabel* brushTypeLabel;
     Renderer* renderArea;
     void connectButtons();
