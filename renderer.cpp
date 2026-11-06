@@ -29,9 +29,18 @@ void Renderer::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void Renderer::mouseMoveEvent(QMouseEvent* event) {
-    if ((event->buttons() & Qt::LeftButton) && isDrawing) {
+    if ((event->buttons() & Qt::LeftButton) && isDrawing)
         drawTo(event->pos());
-        qDebug() << "move";
+}
+
+void Renderer::wheelEvent(QWheelEvent* event) {
+    int wheelDegree = event->angleDelta().y() / 8;
+    if(wheelDegree != 0) {
+        int stepWidth = wheelDegree / 15;
+        qDebug() << "penWidth + stepWidth pre update : " << stepWidth;
+        penWidth = std::clamp(penWidth + stepWidth, 0, std::numeric_limits<int>::max());
+        qDebug() << "wheelDegree : " << wheelDegree;
+        qDebug() << "penWidth + stepWidth post update : " << penWidth;
     }
 }
 
@@ -39,7 +48,8 @@ void Renderer::drawTo(QPoint endPos) {
     QPainter painter(image);
     painter.setPen(QPen(penColor, penWidth));
     painter.drawLine(startPos, endPos);
-    update(QRect(startPos, endPos).normalized().adjusted(-1, -1, 1, 1));
+    float offsetRect = penWidth / 2 + 1;
+    update(QRect(startPos, endPos).normalized().adjusted(-offsetRect, -offsetRect, offsetRect, offsetRect));
     startPos = endPos;
 }
 
