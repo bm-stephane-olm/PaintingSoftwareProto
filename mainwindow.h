@@ -15,8 +15,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
-    void saveImage();
-    void loadImage();
+    void save();
+    void open();
 
 private:
     void createMenu();

@@ -54,6 +54,11 @@ QColor Renderer::getColor() const {
     return penColor;
 }
 
+QImage* Renderer::getImage() {
+    return image;
+}
+
+
 void Renderer::setColor(QColor newColor) {
     penColor = newColor;
 }

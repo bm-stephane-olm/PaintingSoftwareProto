@@ -10,6 +10,7 @@ class Renderer : public QWidget {
         void clearRenderer();
         void setColor(QColor newColor);
         QColor getColor() const;
+        QImage* getImage();
 
     protected:
         void paintEvent(QPaintEvent* event) override;
@@ -17,7 +18,6 @@ class Renderer : public QWidget {
         void mouseReleaseEvent(QMouseEvent* event) override;
         void mouseMoveEvent(QMouseEvent* event) override;
         void wheelEvent(QWheelEvent* event) override;
-
 
     private:
         void drawTo(QPoint endPos);

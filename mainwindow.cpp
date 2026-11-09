@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 #include <QColorDialog>
+#include <QImage>
+#include <QDir>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -39,8 +42,21 @@ void MainWindow::changeColor() {
     renderArea->setColor(newColor);
 }
 
+void MainWindow::save() {
+    QString currentPath = QDir(QDir::currentPath()).filePath("untilted.png");
+    QString fileName = QFileDialog::getSaveFileName(this, "Choose a directory", currentPath);
+    QImage* renderImage = renderArea->getImage();
+    renderImage->save(fileName);
+}
+
+void MainWindow::open() {
+
+}
+
 void MainWindow::connectButtons() {
     connect(colorButton, &QToolButton::clicked, this, &MainWindow::changeColor);
+    connect(openAction, &QAction::triggered, this, &MainWindow::open);
+    connect(saveAction, &QAction::triggered, this, &MainWindow::save);
 }
 
 MainWindow::~MainWindow()
