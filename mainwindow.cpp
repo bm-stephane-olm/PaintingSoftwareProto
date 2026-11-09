@@ -23,7 +23,7 @@ void MainWindow::createMenu() {
 }
 
 void MainWindow::changeColor() {
-    QColor newColor = QColorDialog::getColor(renderArea->getColor());
+    QColor newColor = QColorDialog::getColor(renderArea->getColor(), nullptr, "Pick your color", QColorDialog::ShowAlphaChannel);
     renderArea->setColor(newColor);
 }
 
