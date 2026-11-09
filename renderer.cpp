@@ -5,7 +5,7 @@ Renderer::Renderer(QWidget* parent) :
     penColor(Qt::black),
     penWidth(1)
 {
-    image = new QImage(500,520, QImage::Format::Format_ARGB32);
+    image = new QImage(1280,720, QImage::Format::Format_ARGB32);
     image->fill(Qt::white);
 }
 

@@ -14,12 +14,24 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::createMenu() {
-    colorButton = new QPushButton("Color", this);
+    colorButton = new QToolButton(this);
+    colorButton->setText("Color");
+
+    fileButton = new QToolButton(this);
+    fileButton->setText("File");
+    fileMenu= new QMenu("File", this);
+    saveAction = new QAction("Save",this);
+    openAction = new QAction("Open",this);
+    fileMenu->addAction("Save");
+    fileMenu->addAction("Open");
+    fileButton->setMenu(fileMenu);
+    fileButton->setPopupMode(QToolButton::InstantPopup);
 
     toolBar = new QToolBar(this);
-    toolBar->addWidget(colorButton);
     toolBar->setMovable(false);
     addToolBar(toolBar);
+    toolBar->addWidget(colorButton);
+    toolBar->addWidget(fileButton);
 }
 
 void MainWindow::changeColor() {
@@ -28,7 +40,7 @@ void MainWindow::changeColor() {
 }
 
 void MainWindow::connectButtons() {
-    connect(colorButton, &QPushButton::clicked, this, &MainWindow::changeColor);
+    connect(colorButton, &QToolButton::clicked, this, &MainWindow::changeColor);
 }
 
 MainWindow::~MainWindow()

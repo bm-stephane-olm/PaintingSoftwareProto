@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include "renderer.h"
 #include <QComboBox>
-#include <QLabel>
-#include <QPushButton>
+#include <QMenu>
+#include <QToolButton>
 #include <QtoolBar>
 
 class MainWindow : public QMainWindow
@@ -23,7 +23,11 @@ private:
     void changeColor();
     void connectButtons();
     QToolBar* toolBar;
-    QPushButton* colorButton;
+    QToolButton* colorButton;
+    QToolButton* fileButton;
+    QAction* saveAction;
+    QAction* openAction;
+    QMenu* fileMenu;
     QAction* colorAction;
     Renderer* renderArea;
 };
