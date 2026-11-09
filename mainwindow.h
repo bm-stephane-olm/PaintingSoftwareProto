@@ -19,12 +19,12 @@ public:
     void loadImage();
 
 private:
-    QComboBox* brushTypes;
-    QPushButton* brushColor;
-    QToolBar* toolBar;
-    QLabel* brushColorLabel;
-    QLabel* brushTypeLabel;
-    Renderer* renderArea;
+    void createMenu();
+    void changeColor();
     void connectButtons();
+    QToolBar* toolBar;
+    QPushButton* colorButton;
+    QAction* colorAction;
+    Renderer* renderArea;
 };
 #endif // MAINWINDOW_H

@@ -50,3 +50,11 @@ void Renderer::drawTo(QPoint endPos) {
     startPos = endPos;
 }
 
+QColor Renderer::getColor() const {
+    return penColor;
+}
+
+void Renderer::setColor(QColor newColor) {
+    penColor = newColor;
+}
+

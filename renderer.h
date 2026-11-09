@@ -8,6 +8,8 @@ class Renderer : public QWidget {
     public:
         Renderer(QWidget* parent);
         void clearRenderer();
+        void setColor(QColor newColor);
+        QColor getColor() const;
 
     protected:
         void paintEvent(QPaintEvent* event) override;
@@ -15,6 +17,8 @@ class Renderer : public QWidget {
         void mouseReleaseEvent(QMouseEvent* event) override;
         void mouseMoveEvent(QMouseEvent* event) override;
         void wheelEvent(QWheelEvent* event) override;
+
+
     private:
         void drawTo(QPoint endPos);
         QPoint startPos;

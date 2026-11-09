@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include <QColorDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -7,18 +8,32 @@ MainWindow::MainWindow(QWidget *parent) :
     renderArea = new Renderer(this);
     setCentralWidget(renderArea);
 
-    toolBar = new QToolBar(this);
+    createMenu();
+    connectButtons();
 
-    brushColor = new QPushButton("Color", this);
-    toolBar->addWidget(brushColor);
+}
+
+void MainWindow::createMenu() {
+    colorButton = new QPushButton("Color", this);
+
+    toolBar = new QToolBar(this);
+    toolBar->addWidget(colorButton);
     toolBar->setMovable(false);
     addToolBar(toolBar);
+}
 
+void MainWindow::changeColor() {
+    QColor newColor = QColorDialog::getColor(renderArea->getColor());
+    renderArea->setColor(newColor);
+}
+
+void MainWindow::connectButtons() {
+    connect(colorButton, &QPushButton::clicked, this, &MainWindow::changeColor);
 }
 
 MainWindow::~MainWindow()
 {
     delete renderArea;
-    delete brushColor;
+    delete colorAction;
     delete toolBar;
 }
