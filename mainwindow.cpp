@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     brushColor = new QPushButton("Color", this);
     toolBar->addWidget(brushColor);
+    toolBar->setMovable(false);
+    addToolBar(toolBar);
 
 }
 
