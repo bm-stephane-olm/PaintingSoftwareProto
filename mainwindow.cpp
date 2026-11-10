@@ -3,6 +3,7 @@
 #include <QImage>
 #include <QDir>
 #include <QFileDialog>
+#include <QImageWriter>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -23,10 +24,10 @@ void MainWindow::createMenu() {
     fileButton = new QToolButton(this);
     fileButton->setText("File");
     fileMenu= new QMenu("File", this);
-    saveAction = new QAction("Save",this);
-    openAction = new QAction("Open",this);
-    fileMenu->addAction("Save");
-    fileMenu->addAction("Open");
+    saveAction = new QAction("Save");
+    openAction = new QAction("Open");
+    fileMenu->addAction(saveAction);
+    fileMenu->addAction(openAction);
     fileButton->setMenu(fileMenu);
     fileButton->setPopupMode(QToolButton::InstantPopup);
 
@@ -42,11 +43,25 @@ void MainWindow::changeColor() {
     renderArea->setColor(newColor);
 }
 
+QStringList MainWindow::getSupportedFormats() const {
+    QList<QByteArray> formats = QImageWriter::supportedImageFormats();
+    QStringList res;
+    for (const QByteArray& format : formats) {
+        QString ext = QString::fromLatin1(format);
+        res << QString("%1 Files (.%2)").arg(ext.toUpper(), ext);
+    }
+    return res;
+}
+
 void MainWindow::save() {
-    QString currentPath = QDir(QDir::currentPath()).filePath("untilted.png");
-    QString fileName = QFileDialog::getSaveFileName(this, "Choose a directory", currentPath);
-    QImage* renderImage = renderArea->getImage();
-    renderImage->save(fileName);
+    QString savingPath = QDir(QDir::homePath()).filePath("untilted");
+    //QStringList supportedFormats = getSupportedFormats();
+    QString fileName = QFileDialog::getSaveFileName(this, "Choose a directory", savingPath, QString("PNG Files (.png)"));
+    if(!fileName.isEmpty()) {
+        QImage* renderImage = renderArea->getImage();
+        bool saved = renderImage->save(fileName+".png");
+        qDebug() << saved;
+    }
 }
 
 void MainWindow::open() {
@@ -62,6 +77,10 @@ void MainWindow::connectButtons() {
 MainWindow::~MainWindow()
 {
     delete renderArea;
-    delete colorAction;
+    delete saveAction;
+    delete openAction;
+    delete fileMenu;
+    delete fileButton;
+    delete colorButton;
     delete toolBar;
 }

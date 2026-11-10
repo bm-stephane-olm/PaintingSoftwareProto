@@ -22,13 +22,13 @@ private:
     void createMenu();
     void changeColor();
     void connectButtons();
+    QStringList getSupportedFormats() const;
     QToolBar* toolBar;
     QToolButton* colorButton;
     QToolButton* fileButton;
     QAction* saveAction;
     QAction* openAction;
     QMenu* fileMenu;
-    QAction* colorAction;
     Renderer* renderArea;
 };
 #endif // MAINWINDOW_H
