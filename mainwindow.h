@@ -28,6 +28,8 @@ private:
     QToolButton* fileButton;
     QAction* saveAction;
     QAction* openAction;
+    QAction* undoAction;
+    QAction* redoAction;
     QMenu* fileMenu;
     Renderer* renderArea;
 };

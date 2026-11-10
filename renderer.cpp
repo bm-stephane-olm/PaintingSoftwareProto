@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include "command.h"
 
 Renderer::Renderer(QWidget* parent) :
     QWidget(parent),
@@ -7,6 +8,38 @@ Renderer::Renderer(QWidget* parent) :
 {
     image = new QImage(1280,720, QImage::Format::Format_ARGB32);
     image->fill(Qt::white);
+}
+
+void Renderer::removeDraw(){
+    if(undoStack.canUndo()) {
+        undoStack.undo();
+    }
+}
+
+void Renderer::restoreDraw() {
+    int index = undoStack.index();
+    qDebug() << "Current index of command" << index;
+    if(undoStack.index() < undoStack.count()) {
+
+        undoStack.redo();
+    }
+}
+
+QColor Renderer::getColor() const {
+    return penColor;
+}
+
+QImage* Renderer::getImage() {
+    return image;
+}
+
+void Renderer::setImage(const QImage& newImage) {
+    *image = newImage;
+}
+
+
+void Renderer::setColor(QColor newColor) {
+    penColor = newColor;
 }
 
 void Renderer::paintEvent(QPaintEvent* event) {
@@ -18,6 +51,7 @@ void Renderer::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         isDrawing = true;
         startPos = event->pos();
+        undoStack.push(new DrawCommand(this, image));
     }
 }
 
@@ -49,17 +83,3 @@ void Renderer::drawTo(QPoint endPos) {
     update(QRect(startPos, endPos).normalized().adjusted(-offsetRect, -offsetRect, offsetRect, offsetRect));
     startPos = endPos;
 }
-
-QColor Renderer::getColor() const {
-    return penColor;
-}
-
-QImage* Renderer::getImage() {
-    return image;
-}
-
-
-void Renderer::setColor(QColor newColor) {
-    penColor = newColor;
-}
-

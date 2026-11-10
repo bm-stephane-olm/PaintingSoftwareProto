@@ -28,6 +28,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         renderer.h
         renderer.cpp
+        command.cpp
+        command.h
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET PaintingSoftwareProto APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

@@ -31,11 +31,19 @@ void MainWindow::createMenu() {
     fileButton->setMenu(fileMenu);
     fileButton->setPopupMode(QToolButton::InstantPopup);
 
+    undoAction = new QAction("Undo", this);
+    undoAction->setShortcut(QKeySequence::Undo);
+
+    redoAction = new QAction("Redo", this);
+    redoAction->setShortcut(QKeySequence::Redo);
+
     toolBar = new QToolBar(this);
     toolBar->setMovable(false);
     addToolBar(toolBar);
     toolBar->addWidget(colorButton);
     toolBar->addWidget(fileButton);
+    toolBar->addAction(undoAction);
+    toolBar->addAction(redoAction);
 }
 
 void MainWindow::changeColor() {
@@ -72,6 +80,8 @@ void MainWindow::connectButtons() {
     connect(colorButton, &QToolButton::clicked, this, &MainWindow::changeColor);
     connect(openAction, &QAction::triggered, this, &MainWindow::open);
     connect(saveAction, &QAction::triggered, this, &MainWindow::save);
+    connect(undoAction, &QAction::triggered, renderArea, &Renderer::removeDraw);
+    connect(redoAction, &QAction::triggered, renderArea, &Renderer::restoreDraw);
 }
 
 MainWindow::~MainWindow()
@@ -79,6 +89,7 @@ MainWindow::~MainWindow()
     delete renderArea;
     delete saveAction;
     delete openAction;
+    delete undoAction;
     delete fileMenu;
     delete fileButton;
     delete colorButton;
